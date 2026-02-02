@@ -1,11 +1,12 @@
 name: "FFSA Quiz 1"
-description: "Test your knowledge on World War II history."
-title: "[QUIZ] World War II Quiz - @{github.actor}"
-labels: ["quiz", "history"]
+description: "Quiz 1 on Cipolla’s Laws of Human Stupidity (FFSA)."
+title: "[QUIZ] FFSA Quiz 1 - @{github.actor}"
+labels: ["quiz", "ffsa"]
 body:
   - type: markdown
     attributes:
-      value: "## Welcome to the World War II History Quiz!\n\nPlease answer all questions to the best of your ability."
+      value: "## Welcome to FFSA Quiz 1!\n\nPlease answer all questions to the best of your ability."
+
   - type: input
     id: student_name
     attributes:
@@ -13,39 +14,127 @@ body:
       placeholder: "Enter your name as it appears in Google Classroom"
     validations:
       required: true
-  - type: input
+
+  - type: dropdown
     id: q1
     attributes:
-      label: "Question 1: What year did World War II begin?"
-      placeholder: "Enter a four-digit year (e.g., 1939)"
+      label: "Question 1: According to Cipolla's framework, an individual whose actions benefit both themselves and society is categorized as a Bandit."
+      options:
+        - "True"
+        - "False"
     validations:
       required: true
+    # correct: "False"
+
   - type: dropdown
     id: q2
     attributes:
-      label: "Question 2: Which country was NOT part of the Allied Powers?"
+      label: "Question 2: Which of Cipolla's five laws states that the probability of a person being stupid is independent of any other characteristic of that person?"
       options:
-        - United States
-        - Germany
-        - United Kingdom
-        - Soviet Union
+        - "The First Law"
+        - "The Second Law"
+        - "The Third Law"
+        - "The Fourth Law"
     validations:
       required: true
-  - type: checkboxes
+    # correct: "The Second Law"
+
+  - type: dropdown
     id: q3
     attributes:
-      label: "Question 3: Select all the major events that occurred during WWII."
+      label: "Question 3: The four categories of human action—the Intelligent, the Helpless, the Bandit, and the Stupid—are defined based on the net results of an action for:"
       options:
-        - label: Pearl Harbor Attack
-        - label: Fall of the Berlin Wall
-        - label: D-Day Invasion
-        - label: Moon Landing
+        - "The acting individual and their immediate family."
+        - "The acting individual and their national economy."
+        - "The acting individual and other people/groups."
+        - "The acting individual and historical precedent."
     validations:
       required: true
-  - type: textarea
+    # correct: "The acting individual and other people/groups."
+
+  - type: dropdown
     id: q4
     attributes:
-      label: "Question 4: Briefly explain the significance of the Battle of Stalingrad."
-      placeholder: "Your answer here (2-3 sentences)"
+      label: "Question 4: The Third Law (A stupid person is a person who causes losses to another person or group of persons without at the same time getting any advantage for himself or even incurring losses) is considered the most critical by Cipolla because it defines the core characteristic of stupidity and its societal impact."
+      options:
+        - "True"
+        - "False"
     validations:
       required: true
+    # correct: "True"
+
+  - type: dropdown
+    id: q5
+    attributes:
+      label: "Question 5: A person who consistently makes decisions that cause significant losses to a group they lead, while only gaining a small, negligible personal advantage, would be classified closest to which category?"
+      options:
+        - "Intelligent"
+        - "Helpless"
+        - "Bandit"
+        - "Stupid"
+    validations:
+      required: true
+    # correct: "Stupid"
+
+  - type: dropdown
+    id: q6
+    attributes:
+      label: "Question 6: Cipolla’s First Law (Always and inevitably everyone underestimates the number of stupid individuals in circulation) implies that one should assume a lower prevalence of stupidity in a highly educated environment than in the general population."
+      options:
+        - "True"
+        - "False"
+    validations:
+      required: true
+    # correct: "False"
+
+  - type: dropdown
+    id: q7
+    attributes:
+      label: "Question 7: Which of the following is NOT one of Cipolla's five universal laws of human stupidity?"
+      options:
+        - "Non-stupid people always underestimate the destructive potential of stupid people."
+        - "The probability of a person being stupid is independent of any other characteristic."
+        - "Stupid people are more dangerous than bandits."
+        - "The total number of stupid people remains constant across all human societies."
+    validations:
+      required: true
+    # correct: "The total number of stupid people remains constant across all human societies."
+
+  - type: dropdown
+    id: q8
+    attributes:
+      label: "Question 8: An action where Individual A gains 100 but causes Group B to lose 50 would categorize Individual A's action as:"
+      options:
+        - "Intelligent"
+        - "Helpless"
+        - "Bandit"
+        - "Stupid"
+    validations:
+      required: true
+    # correct: "Bandit"
+
+  - type: dropdown
+    id: q9
+    attributes:
+      label: "Question 9: The primary implication of the First Law for policymakers, according to Cipolla, is that they should:"
+      options:
+        - "Rely less on quantitative data and more on intuition."
+        - "Assume a higher frequency of irrational behavior than seems immediately apparent when planning social policies."
+        - "Invest heavily in education to reduce the number of stupid people."
+        - "Focus solely on preventing the actions of the 'Bandits'."
+    validations:
+      required: true
+    # correct: "Assume a higher frequency of irrational behavior than seems immediately apparent when planning social policies."
+
+  - type: dropdown
+    id: q10
+    attributes:
+      label: "Question 10: The key distinction between a Helpless person and a Stupid person in Cipolla's framework is that the Helpless person's actions ultimately:"
+      options:
+        - "Benefit only themselves, whereas the Stupid person's actions benefit only society."
+        - "Lead to a personal loss, whereas the Stupid person's actions lead to a personal gain."
+        - "Cause a loss to themselves while also benefiting others, whereas the Stupid person causes a loss to others without a personal gain."
+        - "Are not recognized as intentional, whereas the Stupid person's actions are always intentional."
+    validations:
+      required: true
+    # correct: "Cause a loss to themselves while also benefiting others, whereas the Stupid person causes a loss to others without a personal gain."
