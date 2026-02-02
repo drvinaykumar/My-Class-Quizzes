@@ -1,0 +1,122 @@
+name: Grade Quiz
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  grade-quiz:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Parse Issue Form
+        id: issue-parser
+        uses: stefanbuck/github-issue-parser@v3
+        with:
+          issue-body: ${{ github.event.issue.body }}
+
+      - name: Grade Quiz
+        id: grade
+        run: |
+          score=0
+          total_questions=10
+
+          # Get answers from the parsed issue form
+          q1_answer_index="${{ fromJson(steps.issue-parser.outputs.json).q1 }}"
+          q2_answer_index="${{ fromJson(steps.issue-parser.outputs.json).q2 }}"
+          q3_answer_index="${{ fromJson(steps.issue-parser.outputs.json).q3 }}"
+          q4_answer_index="${{ fromJson(steps.issue-parser.outputs.json).q4 }}"
+          q5_answer_index="${{ fromJson(steps.issue-parser.outputs.json).q5 }}"
+          q6_answer_index="${{ fromJson(steps.issue-parser.outputs.json).q6 }}"
+          q7_answer_index="${{ fromJson(steps.issue-parser.outputs.json).q7 }}"
+          q8_answer_index="${{ fromJson(steps.issue-parser.outputs.json).q8 }}"
+          q9_answer_index="${{ fromJson(steps.issue-parser.outputs.json).q9 }}"
+          q10_answer_index="${{ fromJson(steps.issue-parser.outputs.json).q10 }}"
+
+          # Q1 (Dropdown): True/False
+          # Options: 0=True, 1=False
+          if [[ "$q1_answer_index" == "1" ]]; then
+            score=$((score + 1))
+          fi
+
+          # Q2 (Dropdown)
+          # Options: 0=The First Law, 1=The Second Law, 2=The Third Law, 3=The Fourth Law
+          if [[ "$q2_answer_index" == "1" ]]; then
+            score=$((score + 1))
+          fi
+
+          # Q3 (Dropdown)
+          # Options:
+          # 0=The acting individual and their immediate family.
+          # 1=The acting individual and their national economy.
+          # 2=The acting individual and other people/groups.
+          # 3=The acting individual and historical precedent.
+          if [[ "$q3_answer_index" == "2" ]]; then
+            score=$((score + 1))
+          fi
+
+          # Q4 (Dropdown): True/False
+          # Options: 0=True, 1=False
+          if [[ "$q4_answer_index" == "0" ]]; then
+            score=$((score + 1))
+          fi
+
+          # Q5 (Dropdown)
+          # Options: 0=Intelligent, 1=Helpless, 2=Bandit, 3=Stupid
+          if [[ "$q5_answer_index" == "3" ]]; then
+            score=$((score + 1))
+          fi
+
+          # Q6 (Dropdown): True/False
+          # Options: 0=True, 1=False
+          if [[ "$q6_answer_index" == "1" ]]; then
+            score=$((score + 1))
+          fi
+
+          # Q7 (Dropdown)
+          # Options:
+          # 0=Non-stupid people always underestimate the destructive potential of stupid people.
+          # 1=The probability of a person being stupid is independent of any other characteristic.
+          # 2=Stupid people are more dangerous than bandits.
+          # 3=The total number of stupid people remains constant across all human societies.
+          if [[ "$q7_answer_index" == "3" ]]; then
+            score=$((score + 1))
+          fi
+
+          # Q8 (Dropdown)
+          # Options: 0=Intelligent, 1=Helpless, 2=Bandit, 3=Stupid
+          if [[ "$q8_answer_index" == "2" ]]; then
+            score=$((score + 1))
+          fi
+
+          # Q9 (Dropdown)
+          # Options:
+          # 0=Rely less on quantitative data and more on intuition.
+          # 1=Assume a higher frequency of irrational behavior than seems immediately apparent when planning social policies.
+          # 2=Invest heavily in education to reduce the number of stupid people.
+          # 3=Focus solely on preventing the actions of the 'Bandits'.
+          if [[ "$q9_answer_index" == "1" ]]; then
+            score=$((score + 1))
+          fi
+
+          # Q10 (Dropdown)
+          # Options:
+          # 0=Benefit only themselves, whereas the Stupid person's actions benefit only society.
+          # 1=Lead to a personal loss, whereas the Stupid person's actions lead to a personal gain.
+          # 2=Cause a loss to themselves while also benefiting others, whereas the Stupid person causes a loss to others without a personal gain.
+          # 3=Are not recognized as intentional, whereas the Stupid person's actions are always intentional.
+          if [[ "$q10_answer_index" == "2" ]]; then
+            score=$((score + 1))
+          fi
+
+          echo "score=$score" >> $GITHUB_OUTPUT
+          echo "total_questions=$total_questions" >> $GITHUB_OUTPUT
+
+      - name: Comment with Score
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            ## Quiz Results
+
+            Thank you for taking the quiz!
+
+            Your automated score is: **${{ steps.grade.outputs.score }} / ${{ steps.grade.outputs.total_questions }}**
