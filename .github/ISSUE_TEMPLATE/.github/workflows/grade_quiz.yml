@@ -1,0 +1,67 @@
+name: Grade Quiz
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  grade-quiz:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Parse Issue Form
+        id: issue-parser
+        uses: stefanbuck/github-issue-parser@v3
+        with:
+          issue-body: ${{ github.event.issue.body }}
+
+      - name: Grade Quiz
+        id: grade
+        run: |
+          score=0
+          total_questions=4
+
+          # Get answers from the parsed issue form
+          q1_answer="${{ fromJson(steps.issue-parser.outputs.json).q1 }}"
+          q2_answer_index="${{ fromJson(steps.issue-parser.outputs.json).q2 }}"
+          q3_answers_raw="${{ fromJson(steps.issue-parser.outputs.json).q3 }}"
+          q4_answer="${{ fromJson(steps.issue-parser.outputs.json).q4 }}"
+
+          # Question 1: What year did World War II begin? (Input field)
+          if [[ "$q1_answer" == "1939" ]]; then
+            score=$((score + 1))
+          fi
+
+          # Question 2: Which country was NOT part of the Allied Powers? (Dropdown)
+          # Options: 0=United States, 1=Germany, 2=United Kingdom, 3=Soviet Union
+          if [[ "$q2_answer_index" == "1" ]]; then # Germany is at index 1
+            score=$((score + 1))
+          fi
+
+          # Question 3: Select all the major events that occurred during WWII. (Checkboxes)
+          # Expected: Pearl Harbor Attack, D-Day Invasion
+          # The output for checkboxes is a comma-separated string of selected labels.
+          if [[ "$q3_answers_raw" == *"Pearl Harbor Attack"* && "$q3_answers_raw" == *"D-Day Invasion"* && "$q3_answers_raw" != *"Fall of the Berlin Wall"* && "$q3_answers_raw" != *"Moon Landing"* ]]; then
+              score=$((score + 1))
+          fi
+
+          # Question 4: Briefly explain the significance of the Battle of Stalingrad. (Textarea)
+          # This is a subjective question, so we'll mark it as needing manual review.
+          # For simplicity in automated grading, we'll give a point if the answer is not empty.
+          if [[ -n "$q4_answer" ]]; then
+            score=$((score + 1))
+          fi
+
+          echo "score=$score" >> $GITHUB_OUTPUT
+          echo "total_questions=$total_questions" >> $GITHUB_OUTPUT
+
+      - name: Comment with Score
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            ## Quiz Results
+
+            Thank you for taking the quiz!
+
+            Your automated score is: **${{ steps.grade.outputs.score }} / ${{ steps.grade.outputs.total_questions }}**
+
+            *Note: Some questions (like essay questions) may require manual review by your teacher for a final grade.*
