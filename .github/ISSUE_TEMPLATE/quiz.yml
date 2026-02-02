@@ -1,0 +1,51 @@
+name: "FFSA Quiz 1"
+description: "Test your knowledge on World War II history."
+title: "[QUIZ] World War II Quiz - @{github.actor}"
+labels: ["quiz", "history"]
+body:
+  - type: markdown
+    attributes:
+      value: "## Welcome to the World War II History Quiz!\n\nPlease answer all questions to the best of your ability."
+  - type: input
+    id: student_name
+    attributes:
+      label: "Your Full Name"
+      placeholder: "Enter your name as it appears in Google Classroom"
+    validations:
+      required: true
+  - type: input
+    id: q1
+    attributes:
+      label: "Question 1: What year did World War II begin?"
+      placeholder: "Enter a four-digit year (e.g., 1939)"
+    validations:
+      required: true
+  - type: dropdown
+    id: q2
+    attributes:
+      label: "Question 2: Which country was NOT part of the Allied Powers?"
+      options:
+        - United States
+        - Germany
+        - United Kingdom
+        - Soviet Union
+    validations:
+      required: true
+  - type: checkboxes
+    id: q3
+    attributes:
+      label: "Question 3: Select all the major events that occurred during WWII."
+      options:
+        - label: Pearl Harbor Attack
+        - label: Fall of the Berlin Wall
+        - label: D-Day Invasion
+        - label: Moon Landing
+    validations:
+      required: true
+  - type: textarea
+    id: q4
+    attributes:
+      label: "Question 4: Briefly explain the significance of the Battle of Stalingrad."
+      placeholder: "Your answer here (2-3 sentences)"
+    validations:
+      required: true
